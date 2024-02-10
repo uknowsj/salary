@@ -1,8 +1,9 @@
+import Script from 'next/script';
+import type { AppProps } from 'next/app';
+import SEO from '@/components/seo';
 import conf from '@/config';
 import { fontPretendard } from '@/styles/fonts';
 import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
-import Script from 'next/script';
 
 export default function App({ Component, pageProps }: AppProps) {
 	const kakaoInit = () => {
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	return (
 		<main className={fontPretendard.className}>
+			<SEO title='재미로 비교해보는 내 연봉 위치' description='나는 친구보다 얼마나 더 벌고 있을까?' />
 			<Component {...pageProps} />
 			<Script
 				src='https://t1.kakaocdn.net/kakao_js_sdk/2.4.0/kakao.min.js'
