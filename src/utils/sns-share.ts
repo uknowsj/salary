@@ -10,6 +10,9 @@ interface KakaoSharingProps {
 	titleImageText?: string;
 	titleImageCategory?: string;
 }
+/**
+ * 카카오 공유하기
+ */
 export const shareKakao = ({
 	id,
 	salary,
@@ -22,14 +25,15 @@ export const shareKakao = ({
 }: CustomKakaoSharingProps) => {
 	const URL = 'https://salary.devmua.com';
 	const RESULT_URL = `${URL}/result/${id}?salary=${salary}`;
+	const IMAGE_URL = 'https://salary.devmua.com/thumbnail.png';
+	const PROFILE_IMAGE_URL = 'https://salary.devmua.com/heart-and-money.png';
 
-	window.Kakao.Share.createDefaultButton({
-		container: '#kakaotalk-sharing-btn',
+	window.Kakao.Share.sendDefault({
 		objectType: 'feed',
 		content: {
 			title: '나는 친구보다 얼마나 더 벌고 있을까?',
 			description, // 결과
-			imageUrl: `/result-thumbnail.png`,
+			imageUrl: IMAGE_URL,
 			link: {
 				mobileWebUrl: RESULT_URL,
 				webUrl: RESULT_URL,
@@ -37,7 +41,7 @@ export const shareKakao = ({
 		},
 		itemContent: {
 			profileText: '재미로 비교해보는 내 연봉 위치',
-			profileImageUrl: `/thumbnail.png`,
+			profileImageUrl: PROFILE_IMAGE_URL,
 		},
 		buttons: [
 			{
@@ -56,4 +60,16 @@ export const shareKakao = ({
 			},
 		],
 	});
+};
+
+interface XSharingProps {
+	sendText: string;
+	pageUrl: string;
+	bgWhite?: boolean;
+}
+/**
+ * 트위터 공유하기
+ */
+export const XSharing = (x: XSharingProps) => {
+	return () => window.open(`https://twitter.com/intent/tweet?text=${x.sendText}&url=${x.pageUrl}`);
 };
