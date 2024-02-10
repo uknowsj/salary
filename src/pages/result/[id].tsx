@@ -14,7 +14,7 @@ import { getGenderAndAge } from '@/utils/generate-hash-path';
 import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
 import SalaryGraph from '@/components/salary-graph';
 import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
-import { shareKakao } from '@/utils/sns-share';
+import { XSharing, shareKakao } from '@/utils/sns-share';
 import { classifyLevel } from '@/components/user-pos-svg';
 import { GetServerSideProps } from 'next';
 
@@ -59,7 +59,11 @@ export default function Result() {
 
 		// 유저 연봉 레벨 구하기
 		const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain;
-		const salaryLevelIndex = domainData.findIndex((domain) => domain >= Number(salary));
+		let salaryLevelIndex = domainData.findIndex((domain) => domain >= Number(salary));
+		if (salaryLevelIndex === -1) {
+			salaryLevelIndex = domainData.length;
+		}
+
 		// 연봉에 맞는 X좌표(누적합) 구하기
 		const userPosX = salaryByAgeMap[gender][age][salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
 		setUserPercent(userPosX);
@@ -120,8 +124,8 @@ export default function Result() {
 				</p>
 				<p className='text-xs leading-loose text-[#969696]'>
 					❗️임금직무정보시스템에서 제공하는 데이터는 ｢사업체노동력조사｣의 산업 중분류별 임금 증감률과
-					연계하여 추정한 2023년 임금정보로, 고용형태별 근로실태조사 자료로 임의 추정한 데이터와 값이 다소
-					상이할 수 있습니다.
+					연계하여 추정한 2023년 임금정보로, 고용형태별 근로실태조사 자료로 임의 추정한 데이터와 값이 상이할
+					수 있습니다.
 				</p>
 			</div>
 
@@ -150,9 +154,18 @@ export default function Result() {
 					>
 						<SNSKakao />
 					</div>
-					<div className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'>
+					<div
+						className='twitter-share-button flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'
+						onClick={() =>
+							XSharing({
+								sendText: '트위터',
+								pageUrl: LINK,
+							})
+						}
+					>
 						<SNSX />
 					</div>
+
 					<div className='relative flex h-[2.5rem] w-52 items-center justify-center rounded-lg border border-solid border-[#CBCCD2] pr-[2rem]'>
 						<div className='flex size-full items-center overflow-hidden border-r border-solid border-[#CBCCD2] bg-[#EDEEF3] pl-2'>
 							{LINK}

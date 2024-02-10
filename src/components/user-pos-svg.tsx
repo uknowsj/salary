@@ -42,7 +42,7 @@ export default function UserSalaryPos({
 			{/* runner */}
 			<defs>
 				<pattern id='runner-image' height='100%' width='100%' viewBox='0 0 1 1'>
-					<image width='1' height='1' href='/runner-female.png' />
+					<image width='1' height='1' href='/runner-female.webp' />
 				</pattern>
 			</defs>
 
@@ -81,6 +81,8 @@ export const classifyLevel = (posX: number) => {
 		return `중위수준`;
 	} else {
 		// 51% ~ ->  상위 n퍼
-		return `상위 ${Math.round(100 - posX)}%`;
+		let percent = Math.round(100 - posX);
+		percent = percent <= 0 ? 0.1 : percent;
+		return `상위 ${percent}%`;
 	}
 };

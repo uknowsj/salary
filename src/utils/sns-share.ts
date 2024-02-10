@@ -25,8 +25,8 @@ export const shareKakao = ({
 }: CustomKakaoSharingProps) => {
 	const URL = 'https://salary.devmua.com';
 	const RESULT_URL = `${URL}/result/${id}?salary=${salary}`;
-	const IMAGE_URL = 'https://salary.devmua.com/thumbnail.png';
-	const PROFILE_IMAGE_URL = 'https://salary.devmua.com/heart-and-money.png';
+	const IMAGE_URL = 'https://salary.devmua.com/thumbnail.webp';
+	const PROFILE_IMAGE_URL = 'https://salary.devmua.com/heart-and-money.webp';
 
 	window.Kakao.Share.sendDefault({
 		objectType: 'feed',
