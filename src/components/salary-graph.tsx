@@ -1,23 +1,20 @@
 import React, { useMemo, useCallback } from 'react';
-import { AreaClosed, Line, Bar } from '@visx/shape';
-import appleStock, { AppleStock } from '@visx/mock-data/lib/mocks/appleStock';
-import { curveMonotoneX } from '@visx/curve';
-import { GridRows, GridColumns } from '@visx/grid';
-import { scaleTime, scaleLinear, scaleBand } from '@visx/scale';
-import { withTooltip, Tooltip, TooltipWithBounds, defaultStyles } from '@visx/tooltip';
+import { Line, Bar } from '@visx/shape';
+import { GridRows } from '@visx/grid';
+import { scaleLinear, scaleBand } from '@visx/scale';
+import { withTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
 import { localPoint } from '@visx/event';
 import { LinearGradient } from '@visx/gradient';
-import { max, extent, bisector } from '@visx/vendor/d3-array';
-import { timeFormat } from '@visx/vendor/d3-time-format';
+import { bisector } from '@visx/vendor/d3-array';
 import { Group } from '@visx/group';
-import { AxisBottom, AxisLeft, AxisRight } from '@visx/axis';
-import { addComma, isNumeric } from '@/utils/price-converter';
+import { AxisLeft } from '@visx/axis';
+import { addComma, isNumeric, replaceWithZeros } from '@/utils/price-converter';
 import { fontPretendard } from '@/styles/fonts';
 import { Text } from '@visx/text';
 import UserSalaryPos from '@/components/user-pos-svg';
 import { AgeKey, GenderKey } from '@/constant/variable';
-import { salaryByAgeMap, salaryDomain, salaryMap } from '@/constant/result';
+import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
 
 interface SalaryGraphProps {
 	userPercent: number;
@@ -31,8 +28,9 @@ interface SalaryData {
 export default function SalaryGraph({ userPercent, gender, age }: SalaryGraphProps) {
 	// 누적합 데이터
 	const linearData: SalaryData[] = [];
-	for (let idx = 0; idx < salaryDomain.length; idx++) {
-		linearData.push({ per: salaryByAgeMap[gender][age][idx], salary: salaryDomain[idx] });
+	const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain;
+	for (let idx = 0; idx < domainData.length; idx++) {
+		linearData.push({ per: salaryByAgeMap[gender][age][idx], salary: domainData[idx] });
 	}
 
 	// 이산 데이터 (=25p, 50p,70p)
@@ -60,8 +58,6 @@ const tooltipStyles = {
 	border: '1px solid white',
 	color: 'white',
 };
-
-// utils
 
 /**
  * Linear Graph
@@ -184,7 +180,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 				scaleLinear<number>({
 					range: [yMax, 0],
 					round: true,
-					domain: [0, 30000],
+					domain: [0, replaceWithZeros(Math.max(...discreteData.map(getSalary)))],
 				}),
 			[yMax],
 		);
@@ -202,31 +198,14 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 					<LinearGradient id='area-gradient' from={accentColor} to={accentColor} toOpacity={0.1} />
 					<LinearGradient id='bar-gradient' from={'#C2DCC9'} to={'#536C70'} toOpacity={0.1} />
 
-					{/* <AreaClosed<SaleData>
-						data={testData}
-						x={(d) => {
-							// console.log('what is Xd?', d, 'getDate', getDate(d), 'dateScale', dateScale(getDate(d)));
-							// return 50;
-							return dateScale(getDate(d)) ?? 0;
-						}}
-						y={(d) => {
-							// console.log('what id YD?', d, stockValueScale(getStockValue(d)));
-							return stockValueScale(getStockValue(d)) ?? 0;
-						}}
-						yScale={stockValueScale}
-						strokeWidth={1}
-						stroke='url(#area-gradient)'
-						fill='url(#area-gradient)'
-						curve={curveMonotoneX}
-					/> */}
-
 					{/* Bar Graph */}
 					<Group top={verticalMargin}>
 						<GridRows
 							left={52}
 							scale={yScale}
 							width={innerWidth - 20}
-							tickValues={[10000, 20000, 30000]}
+							// TODO
+							// tickValues={[10000, 20000, 30000]}
 							strokeDasharray='2,3'
 							stroke={accentColor}
 							strokeOpacity={0.2}
@@ -238,7 +217,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 							hideTicks
 							left={52}
 							scale={yScale}
-							numTicks={3}
+							// numTicks={3}
 							tickFormat={(d) => {
 								// TODO 레인지값에 따라 변경되어야함
 								return (d as number) % 10000 === 0 ? addComma(d as number) : '';
@@ -250,13 +229,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 								fontSize: 10,
 							}}
 						/>
-						{/* 유저 위치 표시 */}
-						<UserSalaryPos
-							userPosX={userPosX}
-							verticalMargin={verticalMargin}
-							innerHeight={innerHeight}
-							salaryPercentScale={dateScale}
-						/>
+
 						{discreteData.map((d, idx) => {
 							const letter = getPercent(d);
 							// TODO 문제되면 너비추가 삭제
@@ -303,6 +276,13 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 								</>
 							);
 						})}
+						{/* 유저 위치 표시 */}
+						<UserSalaryPos
+							userPosX={userPosX}
+							verticalMargin={verticalMargin}
+							innerHeight={innerHeight}
+							salaryPercentScale={dateScale}
+						/>
 					</Group>
 
 					{/* for tooltip */}
