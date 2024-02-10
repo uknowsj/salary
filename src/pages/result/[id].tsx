@@ -1,6 +1,6 @@
 import Layout from '@/components/layout';
 import { fontGmarket } from '@/styles/fonts';
-import { addComma, removeComma } from '@/utils/price-converter';
+import { addComma, isNumeric, removeComma } from '@/utils/price-converter';
 import useIsomorphicEffect from '@/utils/use-isomorphic-effect';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,7 +13,9 @@ import SNSLink from '@/assets/images/spread.svg';
 import { getGenderAndAge } from '@/utils/generate-hash-path';
 import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
 import SalaryGraph from '@/components/salary-graph';
-import { salaryMap } from '@/constant/result';
+import { salaryByAgeMap, salaryDomain, salaryMap } from '@/constant/result';
+import { shareKakao } from '@/utils/sns-share';
+import { classifyLevel } from '@/components/user-pos-svg';
 
 export default function Result() {
 	const router = useRouter();
@@ -27,8 +29,16 @@ export default function Result() {
 	const [isHigher, setIsHigher] = useState(false);
 	const [salaryDiff, setSalaryDiff] = useState(0);
 
+	// 테스트 결과
+	const [userPercent, setUserPercent] = useState(0);
+
 	useIsomorphicEffect(() => {
-		if (!id) return;
+		if (!id || !salary || !isNumeric(salary)) {
+			alert('잘못된 접근입니다.');
+			router.push('/');
+			return;
+		}
+
 		// 성별, 연령 데이터
 		const { gender, age } = getGenderAndAge(id);
 
@@ -36,9 +46,16 @@ export default function Result() {
 		const value = compareSalary({ salary, age, gender });
 		setIsHigher(value > 0);
 		setSalaryDiff(Math.abs(value));
+
 		// 유저 정보 업데이트
 		setGender({ key: gender, value: gender === 'FEMALE' ? '여성' : '남성' });
 		setAge({ key: age, value: ageMap[age] });
+
+		// 유저 연봉 레벨 구하기
+		const salaryLevelIndex = salaryDomain.findIndex((domain) => domain >= Number(salary));
+		// 연봉에 맞는 X좌표(누적합) 구하기
+		const userPosX = salaryByAgeMap[gender][age][salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
+		setUserPercent(userPosX);
 	}, [id]);
 
 	const LINK = `https://salary.devmua.com${router.asPath}`;
@@ -87,7 +104,7 @@ export default function Result() {
 			</div>
 
 			{/* 그래프 */}
-			<SalaryGraph salary={Number(salary)} gender={gender.key} age={age.key} />
+			<SalaryGraph userPercent={userPercent} gender={gender.key} age={age.key} />
 
 			{/* 안내 */}
 			<div className='mt-14 grid gap-1'>
@@ -113,7 +130,17 @@ export default function Result() {
 			<div className='mt-20'>
 				<p className='text-center font-semibold'>친구들에게 결과를 공유해보세요!</p>
 				<div className='mt-6 flex gap-4'>
-					<div className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#FEE500]'>
+					<div
+						id='kakaotalk-sharing-btn'
+						className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#FEE500]'
+						onClick={() =>
+							shareKakao({
+								id,
+								salary: Number(salary),
+								description: `분석 결과: ${classifyLevel(userPercent)}`,
+							})
+						}
+					>
 						<SNSKakao />
 					</div>
 					<div className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'>
