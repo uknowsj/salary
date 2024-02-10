@@ -15,3 +15,17 @@ export const removeComma = (v: string) => {
 	}
 	return 0;
 };
+
+/**
+ * yScale Max값에 사용하는 함수
+ * 첫번째 자리의 수는 + 1, 나머지는 0으로 변경
+ * @return number;
+ */
+export const replaceWithZeros = (num: number) => {
+	let strNum = num.toString();
+	let firstDigit = (Number(strNum[0]) + 1).toString();
+	for (let i = 1; i < strNum.length; i++) {
+		firstDigit += '0';
+	}
+	return Number(firstDigit);
+};
