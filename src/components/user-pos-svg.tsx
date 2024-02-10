@@ -20,19 +20,6 @@ export default function UserSalaryPos({
 	const iconPosX = userPosX - 8; // 하단 위치 표시
 	const textPosX = userPosX > 85 ? userPosX - 16 : userPosX + 5; // 상단 레벨 텍스트
 
-	const classifyLevel = (posX: number) => {
-		if (posX < 49) {
-			// ~ 49% -> 하위 n퍼
-			return `하위 ${posX}%`;
-		} else if (posX < 51) {
-			// 49% ~ 51% -> 중위수준
-			return `중위수준`;
-		} else {
-			// 51% ~ ->  상위 n퍼
-			return `상위 ${Math.round(100 - posX)}%`;
-		}
-	};
-
 	return (
 		<Group top={verticalMargin * -1}>
 			{/* 내 연봉 위치 */}
@@ -84,3 +71,16 @@ export default function UserSalaryPos({
 		</Group>
 	);
 }
+
+export const classifyLevel = (posX: number) => {
+	if (posX < 49) {
+		// ~ 49% -> 하위 n퍼
+		return `하위 ${posX}%`;
+	} else if (posX < 51) {
+		// 49% ~ 51% -> 중위수준
+		return `중위수준`;
+	} else {
+		// 51% ~ ->  상위 n퍼
+		return `상위 ${Math.round(100 - posX)}%`;
+	}
+};
