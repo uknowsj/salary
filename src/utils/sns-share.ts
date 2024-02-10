@@ -71,5 +71,5 @@ interface XSharingProps {
  * 트위터 공유하기
  */
 export const XSharing = (x: XSharingProps) => {
-	return () => window.open(`https://twitter.com/intent/tweet?text=${x.sendText}&url=${x.pageUrl}`);
+	window.open(`https://twitter.com/intent/tweet?text=${x.sendText}&url=${x.pageUrl}`);
 };
