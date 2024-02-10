@@ -16,7 +16,13 @@ import SalaryGraph from '@/components/salary-graph';
 import { salaryByAgeMap, salaryDomain, salaryMap } from '@/constant/result';
 import { shareKakao } from '@/utils/sns-share';
 import { classifyLevel } from '@/components/user-pos-svg';
+import { GetServerSideProps } from 'next';
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	return {
+		props: {},
+	};
+};
 export default function Result() {
 	const router = useRouter();
 	const { salary, id } = router.query as unknown as { salary: string; id: string };
