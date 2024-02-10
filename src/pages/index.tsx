@@ -117,6 +117,7 @@ export default function Home() {
 					</span>
 					<p className='text-lg font-semibold'>당신의 연봉을 입력해 주세요</p>
 				</div>
+				{/* 입력창 */}
 				<div className='relative mt-4 w-full border-b border-solid border-[#D8DCE0]'>
 					<input
 						placeholder='35,200,000'
@@ -154,7 +155,9 @@ export default function Home() {
 					<p className='text-sm'>유형 선택 없이 연봉만 비교할래요!</p>
 				</label> */}
 				<div className='mt-4 flex gap-2'>
-					<p className='text-sm font-semibold'>성별</p>
+					<div className=' min-w-10'>
+						<p className='text-sm font-semibold'>성별</p>
+					</div>
 					<label className='flex cursor-pointer gap-1' htmlFor='male'>
 						<input
 							type='radio'
@@ -183,7 +186,10 @@ export default function Home() {
 					</label>
 				</div>
 				<div className='mt-4 flex items-center gap-2'>
-					<p className='text-sm font-semibold'>연령대</p>
+					<div className=' min-w-10'>
+						<p className='text-sm font-semibold'>연령대</p>
+					</div>
+
 					<div className='select__list'>
 						<select
 							name='age'
