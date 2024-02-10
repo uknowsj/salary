@@ -13,7 +13,7 @@ import SNSLink from '@/assets/images/spread.svg';
 import { getGenderAndAge } from '@/utils/generate-hash-path';
 import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
 import SalaryGraph from '@/components/salary-graph';
-import { salaryByAgeMap, salaryDomain, salaryMap } from '@/constant/result';
+import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
 import { shareKakao } from '@/utils/sns-share';
 import { classifyLevel } from '@/components/user-pos-svg';
 import { GetServerSideProps } from 'next';
@@ -58,11 +58,12 @@ export default function Result() {
 		setAge({ key: age, value: ageMap[age] });
 
 		// 유저 연봉 레벨 구하기
-		const salaryLevelIndex = salaryDomain.findIndex((domain) => domain >= Number(salary));
+		const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain;
+		const salaryLevelIndex = domainData.findIndex((domain) => domain >= Number(salary));
 		// 연봉에 맞는 X좌표(누적합) 구하기
 		const userPosX = salaryByAgeMap[gender][age][salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
 		setUserPercent(userPosX);
-	}, [id]);
+	}, [id, salary]);
 
 	const LINK = `https://salary.devmua.com${router.asPath}`;
 
@@ -71,7 +72,7 @@ export default function Result() {
 		alert('링크가 복사되었습니다.');
 	};
 
-	if (!salary) return <div>잘못된 접근입니다.</div>;
+	if (!age.value) return <></>;
 	return (
 		<Layout>
 			{/* 타이틀 */}
