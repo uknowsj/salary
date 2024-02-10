@@ -20,7 +20,7 @@ import { AgeKey, GenderKey } from '@/constant/variable';
 import { salaryByAgeMap, salaryDomain, salaryMap } from '@/constant/result';
 
 interface SalaryGraphProps {
-	salary: number;
+	userPercent: number;
 	gender: GenderKey;
 	age: AgeKey;
 }
@@ -28,12 +28,7 @@ interface SalaryData {
 	per: number;
 	salary: number;
 }
-export default function SalaryGraph({ salary, gender, age }: SalaryGraphProps) {
-	// 유저 연봉 레벨 구하기
-	const salaryLevelIndex = salaryDomain.findIndex((domain) => domain >= salary);
-	// 연봉에 맞는 X좌표(누적합) 구하기
-	const userPosX = salaryByAgeMap[gender][age][salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
-
+export default function SalaryGraph({ userPercent, gender, age }: SalaryGraphProps) {
 	// 누적합 데이터
 	const linearData: SalaryData[] = [];
 	for (let idx = 0; idx < salaryDomain.length; idx++) {
@@ -50,7 +45,7 @@ export default function SalaryGraph({ salary, gender, age }: SalaryGraphProps) {
 
 	return (
 		<div className='mx-auto mt-6'>
-			{renderGraphWithTooltip({ width: 348, height: 240, userPosX, linearData, discreteData })}
+			{renderGraphWithTooltip({ width: 348, height: 240, userPosX: userPercent, linearData, discreteData })}
 		</div>
 	);
 }
