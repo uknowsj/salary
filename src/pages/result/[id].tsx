@@ -167,8 +167,8 @@ export default function Result() {
 					</div>
 
 					<div className='relative flex h-[2.5rem] w-52 items-center justify-center rounded-lg border border-solid border-[#CBCCD2] pr-[2rem]'>
-						<div className='flex size-full items-center overflow-hidden border-r border-solid border-[#CBCCD2] bg-[#EDEEF3] pl-2'>
-							{LINK}
+						<div className='flex size-full items-center overflow-hidden text-nowrap border-r border-solid border-[#CBCCD2] bg-[#EDEEF3] pl-2'>
+							<span className='text-sm text-[#535354]'>{LINK}</span>
 						</div>
 						<div className='absolute right-1 cursor-pointer' onClick={copyLink}>
 							<SNSLink />

@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 			<div className='mx-auto flex min-h-svh max-w-[420px] flex-col items-center bg-white px-[20px] pt-8'>
 				{children}
 				{/* hits */}
-				<div className='mb-8'>
+				<div className='opacity-0'>
 					<a href='https://hits.sh/salary.devmua.com/'>
 						<img alt='Hits' src='https://hits.sh/salary.devmua.com.svg?color=4e75fa&labelColor=ffffff' />
 					</a>
