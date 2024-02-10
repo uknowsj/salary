@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: 'Pretendard Variable';
+	font-weight: 45 920;
+	font-style: normal;
+	font-display: swap;
+	src: url('/PretendardVariable.woff2') format('woff2-variations');
+}
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -155,6 +162,10 @@ q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+body {
+	font-family: 'Pretendard Variable';
 }
 
 /* toggle */

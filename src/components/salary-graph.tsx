@@ -10,7 +10,6 @@ import { bisector } from '@visx/vendor/d3-array';
 import { Group } from '@visx/group';
 import { AxisLeft } from '@visx/axis';
 import { addComma, isNumeric, replaceWithZeros } from '@/utils/price-converter';
-import { fontPretendard } from '@/styles/fonts';
 import { Text } from '@visx/text';
 import UserSalaryPos from '@/components/user-pos-svg';
 import { AgeKey, GenderKey } from '@/constant/variable';
@@ -225,7 +224,8 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 							hideZero
 							tickLabelProps={{
 								fill: 'white',
-								fontFamily: fontPretendard.className,
+								fontFamily: 'Pretendard Variable',
+								fontWeight: 200,
 								fontSize: 10,
 							}}
 						/>
@@ -255,9 +255,9 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 										fill='white'
 										style={{
 											fontSize: '14px',
-											fontWeight: 'bold',
+											fontWeight: 600,
 											textAlign: 'center',
-											fontFamily: fontPretendard.className,
+											fontFamily: 'Pretendard Variable',
 										}}
 									>
 										{addComma(getSalary(d))}
@@ -343,6 +343,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 								left={item.posX}
 								style={{
 									...defaultStyles,
+									fontFamily: 'Pretendard Variable',
 									minWidth: 72,
 									textAlign: 'center',
 									transform: 'translateX(-50%)',

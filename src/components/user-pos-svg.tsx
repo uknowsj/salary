@@ -1,4 +1,3 @@
-import { fontPretendard } from '@/styles/fonts';
 import { GridColumns } from '@visx/grid';
 import { Group } from '@visx/group';
 import type { ScaleLinear } from '@visx/vendor/d3-scale';
@@ -36,7 +35,7 @@ export default function UserSalaryPos({
 			{/* 하단 아이콘 */}
 			<defs>
 				<pattern id='image' height='100%' width='100%' viewBox='0 0 1 1'>
-					<image width='1' height='1' href='/map-pin-front-color.svg' />
+					<image width='1' height='1' href='/map-pin-front-color.webp' />
 				</pattern>
 			</defs>
 			{/* runner */}
@@ -61,9 +60,9 @@ export default function UserSalaryPos({
 				fill='white'
 				style={{
 					fontSize: '10px',
-					fontWeight: 'bold',
+					fontWeight: 600,
 					textAlign: 'center',
-					fontFamily: fontPretendard.className,
+					fontFamily: 'Pretendard Variable',
 				}}
 			>
 				{classifyLevel(userPosX)}
