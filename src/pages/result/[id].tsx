@@ -132,7 +132,7 @@ export default function Result() {
 			{/* 버튼 */}
 			<button
 				className='mt-16 flex h-[48px] w-[204px] items-center justify-center rounded-2xl bg-[#5881FB]'
-				onClick={() => router.back()}
+				onClick={() => router.push('/')}
 			>
 				<p className='font-bold text-white'>다시 하기</p>
 			</button>
