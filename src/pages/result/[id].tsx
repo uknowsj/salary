@@ -177,15 +177,29 @@ export default function Result() {
 				</div>
 			</div>
 
+			{/* 광고 */}
+			<div className='mt-10 flex flex-col items-center'>
+				<iframe
+					src='https://ads-partners.coupang.com/widgets.html?id=756251&template=carousel&trackingCode=AF2517042&subId=&width=350&height=140&tsource='
+					width='350'
+					height='140'
+					referrerPolicy='unsafe-url'
+					// @ts-ignore
+					browsingtopics
+				></iframe>
+				<p className='mt-3 text-center text-[10px] text-[#969696]'>
+					이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다
+				</p>
+			</div>
+
 			{/* 주의문 */}
-			<div className='flex flex-1 flex-col justify-end gap-2 pb-8 pt-16'>
+			<div className='flex flex-1 flex-col justify-end gap-2 py-8'>
 				<p className='text-xs text-[#969696]'>* 참고 자료 출처 | 임금직무정보시스템, KOSIS(국가통계포털)</p>
 				<p className='text-xs text-[#969696]'>
 					* 본 테스트는 오락 목적으로 제작되었으며 실제 통계 결과와 상이할 수 있습니다.
 				</p>
 				<p className='text-xs text-[#969696]'>* 재미로만 즐겨주세요 :)</p>
 			</div>
-			{/* 히트 */}
 		</Layout>
 	);
 }
