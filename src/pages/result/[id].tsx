@@ -1,22 +1,23 @@
-import Layout from '@/components/layout';
-import { fontGmarket } from '@/styles/fonts';
-import { addComma, isNumeric, removeComma } from '@/utils/price-converter';
-import useIsomorphicEffect from '@/utils/use-isomorphic-effect';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+
 import HeartAndMoney from '@/assets/images/heart-and-money.png';
-import SadEmoji from '@/assets/images/sad-emoji.png';
 import SNSKakao from '@/assets/images/kakaotalk.svg';
-import SNSX from '@/assets/images/x.svg';
+import SadEmoji from '@/assets/images/sad-emoji.png';
 import SNSLink from '@/assets/images/spread.svg';
-import { getGenderAndAge } from '@/utils/generate-hash-path';
-import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
+import SNSX from '@/assets/images/x.svg';
+import Layout from '@/components/layout';
 import SalaryGraph from '@/components/salary-graph';
-import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
-import { XSharing, shareKakao } from '@/utils/sns-share';
 import { classifyLevel } from '@/components/user-pos-svg';
-import { GetServerSideProps } from 'next';
+import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
+import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
+import { fontGmarket } from '@/styles/fonts';
+import { getGenderAndAge } from '@/utils/generate-hash-path';
+import { addComma, isNumeric, removeComma } from '@/utils/price-converter';
+import { XSharing, shareKakao } from '@/utils/sns-share';
+import useIsomorphicEffect from '@/utils/use-isomorphic-effect';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
@@ -175,21 +176,6 @@ export default function Result() {
 						</div>
 					</div>
 				</div>
-			</div>
-
-			{/* 광고 */}
-			<div className='mt-10 flex flex-col items-center'>
-				<iframe
-					src='https://ads-partners.coupang.com/widgets.html?id=756251&template=carousel&trackingCode=AF2517042&subId=&width=350&height=140&tsource='
-					width='350'
-					height='140'
-					referrerPolicy='unsafe-url'
-					// @ts-ignore
-					browsingtopics
-				></iframe>
-				<p className='mt-3 text-center text-[10px] text-[#969696]'>
-					이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다
-				</p>
 			</div>
 
 			{/* 주의문 */}

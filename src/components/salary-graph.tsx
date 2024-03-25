@@ -1,19 +1,20 @@
-import React, { useMemo, useCallback } from 'react';
-import { Line, Bar } from '@visx/shape';
-import { GridRows } from '@visx/grid';
-import { scaleLinear, scaleBand } from '@visx/scale';
-import { withTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
-import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
+import { AxisLeft } from '@visx/axis';
 import { localPoint } from '@visx/event';
 import { LinearGradient } from '@visx/gradient';
-import { bisector } from '@visx/vendor/d3-array';
+import { GridRows } from '@visx/grid';
 import { Group } from '@visx/group';
-import { AxisLeft } from '@visx/axis';
-import { addComma, isNumeric, replaceWithZeros } from '@/utils/price-converter';
+import { scaleLinear, scaleBand } from '@visx/scale';
+import { Line, Bar } from '@visx/shape';
 import { Text } from '@visx/text';
+import { withTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
+import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
+import { bisector } from '@visx/vendor/d3-array';
+import React, { useMemo, useCallback } from 'react';
+
 import UserSalaryPos from '@/components/user-pos-svg';
-import { AgeKey, GenderKey } from '@/constant/variable';
 import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
+import { AgeKey, GenderKey } from '@/constant/variable';
+import { addComma, isNumeric, replaceWithZeros } from '@/utils/price-converter';
 
 interface SalaryGraphProps {
 	userPercent: number;
