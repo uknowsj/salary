@@ -168,41 +168,6 @@ body {
 	font-family: 'Pretendard Variable';
 }
 
-/* toggle */
-.toggle {
-	appearance: none;
-	position: relative;
-	border-radius: 1rem;
-	background-color: #dee2e6;
-	width: 3.5rem;
-	height: 2rem;
-	cursor: pointer;
-}
-
-.toggle::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	width: 1.5em;
-	height: 1.5rem;
-	top: 50%;
-	transform: translateY(-50%) scale(0.8);
-	border-radius: 50%;
-	background-color: white;
-}
-
-.toggle.active::before {
-	transition: left 250ms linear;
-}
-
-.toggle:checked {
-	background-color: #121417;
-}
-.toggle:checked::before {
-	background-color: white;
-	left: 2rem;
-}
-
 .select__list {
 	border: 1px solid #cbccd2;
 	border-radius: 0.5rem;
