@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import CoinMainImg from '@/assets/images/coin-main.png';
 import CoinSideBottomImg from '@/assets/images/coin-side-bottom.png';
@@ -8,6 +8,7 @@ import CoinSideLeftImg from '@/assets/images/coin-side-left.png';
 import CoinSideTopImg from '@/assets/images/coin-side-top.png';
 import PinImg from '@/assets/images/pin-dynamic-color.png';
 import Layout from '@/components/layout';
+import Loading from '@/components/loading';
 import { fontGmarket } from '@/styles/fonts';
 import { generateHashPath } from '@/utils/generate-hash-path';
 import { removeComma } from '@/utils/price-converter';
@@ -18,11 +19,24 @@ interface OptionType {
 }
 export default function Home() {
 	const router = useRouter();
+	const [showLoading, setShowLoading] = useState(false);
 	const [salary, setSalary] = useState<number | string>('');
 	const [option, setOption] = useState<OptionType>({
 		age: '2',
 		sex: 'male',
 	});
+
+	useEffect(() => {
+		const handleRouteEvent = () => {
+			if (showLoading) {
+				setShowLoading(false);
+			}
+		};
+		router.events.on('routeChangeComplete', handleRouteEvent);
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteEvent);
+		};
+	}, [showLoading]);
 
 	const changeSalary = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
@@ -43,10 +57,20 @@ export default function Home() {
 		if (!salary) {
 			return alert('비교할 연봉을 입력해주세요.');
 		}
+
+		setShowLoading(true);
+
 		const path = generateHashPath(option.sex + option.age);
 		router.push({ pathname: `/result/${path}`, query: { salary: removeComma(salary as string) } });
 	};
 
+	if (showLoading) {
+		return (
+			<Layout>
+				<Loading />
+			</Layout>
+		);
+	}
 	return (
 		<Layout>
 			<header className={`${fontGmarket.className}`}>

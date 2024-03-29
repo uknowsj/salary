@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
+
 import EmailIC from '@/assets/images/email.svg';
 
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<div className='bg-gray-100'>
-			<div className='mx-auto flex min-h-svh max-w-[420px] flex-col items-center bg-white px-5 pt-8'>
+			<div className='relative mx-auto flex min-h-svh max-w-[420px] flex-col items-center bg-white px-5 pt-8'>
 				{children}
 				<footer className='flex flex-col items-center'>
 					{/* hits */}
