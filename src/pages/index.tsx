@@ -18,7 +18,7 @@ interface OptionType {
 }
 export default function Home() {
 	const router = useRouter();
-	const [salary, setSalary] = useState<number | string>();
+	const [salary, setSalary] = useState<number | string>('');
 	const [option, setOption] = useState<OptionType>({
 		age: '2',
 		sex: 'male',
@@ -71,6 +71,7 @@ export default function Home() {
 					src={CoinMainImg}
 					width='200'
 					alt='동전 이미지'
+					priority
 					style={{ position: 'absolute', top: 46 }}
 				/>
 				<Image
@@ -114,7 +115,7 @@ export default function Home() {
 						<input
 							placeholder='35,200,000'
 							value={salary}
-							className='w-[calc(100%-2rem)] py-1  text-center text-[32px] font-semibold placeholder:text-[#CBCCD2] hover:outline-none focus:outline-none active:outline-none '
+							className='w-[calc(100%-2rem)] py-1 text-center text-[32px] font-semibold placeholder:text-[#CBCCD2] hover:outline-none focus:outline-none active:outline-none '
 							onChange={changeSalary}
 							onBlur={() => {
 								if (salary) {
@@ -122,7 +123,7 @@ export default function Home() {
 								}
 							}}
 							onFocus={() => {
-								if (typeof salary === 'string') {
+								if (salary && typeof salary === 'string') {
 									setSalary(removeComma(salary));
 								}
 							}}

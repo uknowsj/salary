@@ -99,8 +99,6 @@ export default function Result() {
 					{' '}
 					<em className='text-[28px] text-[#FF4444]'>{isHigher ? '더' : '덜'}</em> 받고 있어요!
 				</span>
-				{/* <div>
-				</div> */}
 			</div>
 
 			{/* 평균연봉 */}

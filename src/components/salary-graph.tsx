@@ -52,19 +52,10 @@ export const background = '#3b6978';
 export const background2 = '#204051';
 export const accentColor = '#edffea';
 export const accentColorDark = '#75daad';
-const tooltipStyles = {
-	...defaultStyles,
-	background,
-	border: '1px solid white',
-	color: 'white',
-};
 
 /**
  * Linear Graph
  */
-// Accessors
-// const getDate = (d: SalaryData) => d.per;
-// const getStockValue = (d: SalaryData) => d.salary;
 const bisectDate = bisector<SalaryData, number>((d) => d.per).left;
 
 /**
@@ -246,7 +237,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 								}
 
 								return (
-									<>
+									<Group key={idx}>
 										<Text
 											// x={429.5}
 											key={`Text-${idx}`}
@@ -276,7 +267,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 											// 	if (events) alert(`clicked: ${JSON.stringify(Object.values(d))}`);
 											// }}
 										/>
-									</>
+									</Group>
 								);
 							})}
 							{/* 유저 위치 표시 */}
@@ -302,7 +293,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 							onMouseLeave={() => hideTooltip()}
 						/>
 						{tooltipData && (
-							<g>
+							<Group>
 								<Line
 									from={{ x: tooltipLeft, y: margin.top }}
 									to={{ x: tooltipLeft, y: innerHeight + margin.top }}
@@ -331,7 +322,7 @@ const renderGraphWithTooltip = withTooltip<AreaProps, TooltipData>(
 									strokeWidth={2}
 									pointerEvents='none'
 								/>
-							</g>
+							</Group>
 						)}
 					</svg>
 
