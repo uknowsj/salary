@@ -7,4 +7,3 @@ Host: https://salary.devmua.com
 
 # Sitemaps
 Sitemap: https://salary.devmua.com/sitemap.xml
-Sitemap: https://example.com/server-sitemap-index.xml
