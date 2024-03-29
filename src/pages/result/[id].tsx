@@ -94,9 +94,7 @@ export default function Result() {
 					/>
 				</div>
 
-				<span className='highlight relative z-10'>
-					{/* 약 10,000,000원 이상 */}약 {addComma(salaryDiff)}원
-				</span>
+				<span className='highlight relative z-10'>약 {addComma(salaryDiff)}원</span>
 				<span>
 					{' '}
 					<em className='text-[28px] text-[#FF4444]'>{isHigher ? '더' : '덜'}</em> 받고 있어요!
@@ -155,12 +153,14 @@ export default function Result() {
 					>
 						<SNSKakao />
 					</div>
+
 					<div
-						className='twitter-share-button flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'
+						className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'
 						onClick={() =>
 							XSharing({
-								sendText: '트위터',
+								sendText: `[재미로 보는 내 연봉 위치] 나는 친구보다 얼마나 더 벌고 있을까? 🧐\n\n`,
 								pageUrl: LINK,
+								hashtags: ['연봉', '테스트', classifyLevel(userPercent)],
 							})
 						}
 					>

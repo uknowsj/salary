@@ -40,7 +40,7 @@ export const shareKakao = ({
 			},
 		},
 		itemContent: {
-			profileText: '재미로 비교해보는 내 연봉 위치',
+			profileText: '재미로 보는 내 연봉 위치',
 			profileImageUrl: PROFILE_IMAGE_URL,
 		},
 		buttons: [
@@ -66,10 +66,15 @@ interface XSharingProps {
 	sendText: string;
 	pageUrl: string;
 	bgWhite?: boolean;
+	hashtags?: string[];
 }
 /**
  * 트위터 공유하기
  */
 export const XSharing = (x: XSharingProps) => {
-	window.open(`https://twitter.com/intent/tweet?text=${x.sendText}&url=${x.pageUrl}`);
+	window.open(
+		`https://twitter.com/intent/tweet?text=${encodeURIComponent(x.sendText)}&url=${
+			x.pageUrl
+		}&hashtags=${encodeURIComponent(x.hashtags?.join(',').replace(' ', '_') || '')}`,
+	);
 };

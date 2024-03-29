@@ -6,18 +6,16 @@ import conf from '@/config';
 import { fontPretendard } from '@/styles/fonts';
 
 import '@/styles/globals.css';
-import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
 	const kakaoInit = () => {
 		window.Kakao.init(conf.kakaoKey);
 		window.Kakao.isInitialized();
 	};
-	const route = useRouter();
-	console.log('route', route.asPath);
+
 	return (
 		<div className={fontPretendard.className}>
-			<SEO title='재미로 비교해보는 내 연봉 위치' description='나는 친구보다 얼마나 더 벌고 있을까?' />
+			<SEO title='재미로 보는 내 연봉 위치' description='나는 친구보다 얼마나 더 벌고 있을까?' />
 			<Component {...pageProps} />
 			<Script
 				src='https://t1.kakaocdn.net/kakao_js_sdk/2.4.0/kakao.min.js'

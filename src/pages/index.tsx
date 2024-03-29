@@ -63,7 +63,7 @@ export default function Home() {
 			<figure className='relative mt-8 flex h-[238px] w-[296px] flex-col items-center overflow-hidden rounded-xl bg-gradient-to-b from-[#FFEDBE] to-[#ffbc2c]'>
 				<div className='mt-5 flex items-center'>
 					<Image src={PinImg} width='26' alt='붉은 고정핀 이미지' />
-					<p className='ml-1 font-bold text-[#38342C]'>재미로 비교해보는 내 연봉 위치!</p>
+					<p className='ml-1 font-bold text-[#38342C]'>재미로 보는 내 연봉 위치!</p>
 				</div>
 				{/* coin images */}
 				<Image
