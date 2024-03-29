@@ -20,7 +20,7 @@ export default function SEO({ title, description, children }: SEOProps) {
 			<meta property='og:image' content={`${process.env.NEXT_PUBLIC_SITE_URL}/thumbnail.webp`} />
 
 			{/* Twitter Meta Tags */}
-			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:card' content='summary' />
 			<meta property='twitter:domain' content={`${process.env.NEXT_PUBLIC_SITE_URL}`} />
 			<meta property='twitter:url' content={`${process.env.NEXT_PUBLIC_SITE_URL}${route.asPath}`} />
 			<meta name='twitter:title' content={title} />
