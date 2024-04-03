@@ -12,30 +12,31 @@ import { bisector } from '@visx/vendor/d3-array';
 import React, { useMemo, useCallback } from 'react';
 
 import UserSalaryPos from '@/components/user-pos-svg';
-import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
 import { AgeKey, GenderKey } from '@/constant/variable';
+import { TestResultData } from '@/models/salary';
 import { addComma, isNumeric, replaceWithZeros } from '@/utils/price-converter';
 
 interface SalaryGraphProps {
+	testResult: TestResultData;
 	userPercent: number;
-	gender: GenderKey;
-	age: AgeKey;
 }
 interface SalaryData {
 	per: number;
 	salary: number;
 }
-export default function SalaryGraph({ userPercent, gender, age }: SalaryGraphProps) {
+export default function SalaryGraph({
+	testResult: { salaryDataOfOthers, domainData, prefixSumData },
+	userPercent,
+}: SalaryGraphProps) {
 	// 누적합 데이터
 	const linearData: SalaryData[] = [];
-	const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain;
 	for (let idx = 0; idx < domainData.length; idx++) {
-		linearData.push({ per: salaryByAgeMap[gender][age][idx], salary: domainData[idx] });
+		linearData.push({ per: prefixSumData[idx], salary: domainData[idx] });
 	}
 
 	// 이산 데이터 (=25p, 50p,70p)
 	const discreteData: SalaryData[] = [];
-	for (const [per, salary] of Object.entries(salaryMap[gender][age])) {
+	for (const [per, salary] of Object.entries(salaryDataOfOthers)) {
 		if (isNumeric(per)) {
 			discreteData.push({ per: Number(per), salary });
 		}

@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -11,20 +11,43 @@ import SNSX from '@/assets/images/x.svg';
 import Layout from '@/components/layout';
 import SalaryGraph from '@/components/salary-graph';
 import { classifyLevel } from '@/components/user-pos-svg';
-import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/constant/result';
-import { GenderKey, GenderValue, ageMap, AgeKey, gender, AgeValue } from '@/constant/variable';
+import { hashPathMap } from '@/constant/path-hash-map';
+import { GenderKey, GenderValue, ageMap, AgeKey, AgeValue } from '@/constant/variable';
+import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from '@/data/salary';
+import { TestResultData } from '@/models/salary';
 import { fontGmarket } from '@/styles/fonts';
 import { getGenderAndAge } from '@/utils/generate-hash-path';
 import { addComma, isNumeric, removeComma } from '@/utils/price-converter';
 import { XSharing, shareKakao } from '@/utils/sns-share';
 import useIsomorphicEffect from '@/utils/use-isomorphic-effect';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	return {
-		props: {},
-	};
+export async function getStaticPaths() {
+	const paths = Object.keys(hashPathMap).map((path: string) => ({
+		params: { id: path },
+	}));
+
+	return { paths, fallback: true };
+}
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+	try {
+		const { id } = context.params as { id: string };
+		const { gender, age } = getGenderAndAge(id);
+
+		const salaryDataOfOthers = salaryMap[gender][age]; // 또래 연봉 정보 { avg: 26929, 25: 23712, 50: 25190, 75: 28050 },
+		const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain; // 성별 연봉 정보
+		const prefixSumData = salaryByAgeMap[gender][age]; // 또래 연봉 누계 데이터
+
+		return { props: { salaryDataOfOthers, domainData, prefixSumData } };
+	} catch (err: any) {
+		return { props: { err: err.message } };
+	}
 };
-export default function Result() {
+
+interface ResultProps extends TestResultData {
+	err: string;
+}
+export default function Result({ salaryDataOfOthers, domainData, prefixSumData, err }: ResultProps) {
 	const router = useRouter();
 	const { salary, id } = router.query as unknown as { salary: string; id: string };
 
@@ -40,7 +63,8 @@ export default function Result() {
 	const [userPercent, setUserPercent] = useState(0);
 
 	useIsomorphicEffect(() => {
-		if (!id || !salary || !isNumeric(salary)) {
+		if (!router.isReady) return;
+		if (err || !isNumeric(salary)) {
 			alert('잘못된 접근입니다.');
 			router.push('/');
 			return;
@@ -50,7 +74,7 @@ export default function Result() {
 		const { gender, age } = getGenderAndAge(id);
 
 		// 연봉 정보 업데이트
-		const value = compareSalary({ salary, age, gender });
+		const value = compareSalary({ salaryAvg: salaryDataOfOthers.avg, salary });
 		setIsHigher(value > 0);
 		setSalaryDiff(Math.abs(value));
 
@@ -59,14 +83,13 @@ export default function Result() {
 		setAge({ key: age, value: ageMap[age] });
 
 		// 유저 연봉 레벨 구하기
-		const domainData = gender === 'FEMALE' ? femaleSalaryDomain : maleSalaryDomain;
 		let salaryLevelIndex = domainData.findIndex((domain) => domain >= Number(salary));
 		if (salaryLevelIndex === -1) {
 			salaryLevelIndex = domainData.length;
 		}
 
 		// 연봉에 맞는 X좌표(누적합) 구하기
-		const userPosX = salaryByAgeMap[gender][age][salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
+		const userPosX = prefixSumData[salaryLevelIndex > 0 ? salaryLevelIndex - 1 : salaryLevelIndex];
 		setUserPercent(userPosX);
 	}, [id, salary]);
 
@@ -105,14 +128,14 @@ export default function Result() {
 			<div className='mt-2 w-full'>
 				<p className='text-sm text-[#434447]'>
 					{age.value}세 {gender.value} 평균 연봉은 약{' '}
-					<strong className='font-bold'>{addComma(salaryMap[gender.key][age.key].avg * 1000)}</strong>
+					<strong className='font-bold'>{addComma(salaryDataOfOthers.avg * 1000)}</strong>
 					원입니다.
 				</p>
 				<p className='mt-1 text-xs text-[#7E8086]'>(* 추정치로 실제 수치와 다를 수 있습니다.)</p>
 			</div>
 
 			{/* 그래프 */}
-			<SalaryGraph userPercent={userPercent} gender={gender.key} age={age.key} />
+			<SalaryGraph testResult={{ salaryDataOfOthers, domainData, prefixSumData }} userPercent={userPercent} />
 
 			{/* 안내 */}
 			<div className='mt-14 grid gap-1'>
@@ -189,11 +212,10 @@ export default function Result() {
 }
 
 interface CompareSalaryProps {
+	salaryAvg: number;
 	salary: string;
-	gender: GenderKey;
-	age: AgeKey;
 }
-const compareSalary = ({ salary, gender, age }: CompareSalaryProps) => {
+const compareSalary = ({ salaryAvg, salary }: CompareSalaryProps) => {
 	const salaryValue = removeComma(salary);
-	return salaryValue - salaryMap[gender][age].avg * 1000;
+	return salaryValue - salaryAvg * 1000;
 };
