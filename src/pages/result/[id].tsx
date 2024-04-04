@@ -17,6 +17,7 @@ import { salaryByAgeMap, maleSalaryDomain, femaleSalaryDomain, salaryMap } from 
 import { TestResultData } from '@/models/salary';
 import { fontGmarket } from '@/styles/fonts';
 import { getGenderAndAge } from '@/utils/generate-hash-path';
+import { event } from '@/utils/gtag';
 import { addComma, isNumeric, removeComma } from '@/utils/price-converter';
 import { XSharing, shareKakao } from '@/utils/sns-share';
 import useIsomorphicEffect from '@/utils/use-isomorphic-effect';
@@ -61,6 +62,7 @@ export default function Result({ salaryDataOfOthers, domainData, prefixSumData, 
 
 	// 테스트 결과
 	const [userPercent, setUserPercent] = useState(0);
+	const LINK = `https://salary.devmua.com${router.asPath}`;
 
 	useIsomorphicEffect(() => {
 		if (!router.isReady) return;
@@ -93,14 +95,23 @@ export default function Result({ salaryDataOfOthers, domainData, prefixSumData, 
 		setUserPercent(userPosX);
 	}, [id, salary]);
 
-	const LINK = `https://salary.devmua.com${router.asPath}`;
-
 	const copyLink = async () => {
 		await navigator.clipboard.writeText(LINK);
 		alert('링크가 복사되었습니다.');
 	};
 
-	if (!age.value) return <></>;
+	const retryTest = () => {
+		event({ value: 'retry_test' });
+		router.push('/');
+	};
+
+	const shareSNS = (fn: Function, key: 'kakao' | 'x') => () => {
+		event({ value: 'share_result' });
+		event({ action: 'share', label: 'sns', value: key });
+		fn();
+	};
+
+	if (!salaryDataOfOthers) return <></>;
 	return (
 		<Layout>
 			{/* 타이틀 */}
@@ -152,7 +163,7 @@ export default function Result({ salaryDataOfOthers, domainData, prefixSumData, 
 			{/* 버튼 */}
 			<button
 				className='mt-16 flex h-[48px] w-[204px] items-center justify-center rounded-2xl bg-[#5881FB]'
-				onClick={() => router.push('/')}
+				onClick={retryTest}
 			>
 				<p className='font-bold text-white'>다시 하기</p>
 			</button>
@@ -164,26 +175,30 @@ export default function Result({ salaryDataOfOthers, domainData, prefixSumData, 
 					<div
 						id='kakaotalk-sharing-btn'
 						className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#FEE500]'
-						onClick={() =>
-							shareKakao({
-								id,
-								salary: Number(salary),
-								description: `분석 결과: ${classifyLevel(userPercent)}`,
-							})
-						}
+						onClick={shareSNS(
+							() =>
+								shareKakao({
+									id,
+									salary: Number(salary),
+									description: `분석 결과: ${classifyLevel(userPercent)}`,
+								}),
+							'kakao',
+						)}
 					>
 						<SNSKakao />
 					</div>
 
 					<div
 						className='flex size-[2.5rem] cursor-pointer items-center justify-center rounded-lg bg-[#121212]'
-						onClick={() =>
-							XSharing({
-								sendText: `[재미로 보는 내 연봉 위치] 나는 친구보다 얼마나 더 벌고 있을까? 🧐\n\n`,
-								pageUrl: LINK,
-								hashtags: ['연봉', '테스트', classifyLevel(userPercent)],
-							})
-						}
+						onClick={shareSNS(
+							() =>
+								XSharing({
+									sendText: `[재미로 보는 내 연봉 위치] 나는 친구보다 얼마나 더 벌고 있을까? 🧐\n\n`,
+									pageUrl: LINK,
+									hashtags: ['연봉', '테스트', classifyLevel(userPercent)],
+								}),
+							'x',
+						)}
 					>
 						<SNSX />
 					</div>

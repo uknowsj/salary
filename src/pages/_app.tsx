@@ -6,6 +6,7 @@ import conf from '@/config';
 import { fontPretendard } from '@/styles/fonts';
 
 import '@/styles/globals.css';
+import GoogleAnalytics from '@/google-analytics';
 
 export default function App({ Component, pageProps }: AppProps) {
 	const kakaoInit = () => {
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	return (
 		<div className={fontPretendard.className}>
+			<GoogleAnalytics />
 			<SEO title='재미로 보는 내 연봉 위치' description='나는 친구보다 얼마나 더 벌고 있을까?' />
 			<Component {...pageProps} />
 			<Script

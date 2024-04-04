@@ -11,6 +11,7 @@ import Layout from '@/components/layout';
 import Loading from '@/components/loading';
 import { fontGmarket } from '@/styles/fonts';
 import { generateHashPath } from '@/utils/generate-hash-path';
+import { event } from '@/utils/gtag';
 import { removeComma } from '@/utils/price-converter';
 
 interface OptionType {
@@ -57,6 +58,7 @@ export default function Home() {
 		if (!salary) {
 			return alert('비교할 연봉을 입력해주세요.');
 		}
+		event({ value: 'start_test' });
 
 		setShowLoading(true);
 

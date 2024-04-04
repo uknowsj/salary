@@ -9,7 +9,10 @@ export default function SEO({ title, description, children }: SEOProps) {
 		<Head>
 			{/* HTML Meta Tags */}
 			<title>재미로 보는 내 연봉 위치</title>
-			<meta name='description' content='나는 친구보다 얼마나 더 벌고 있을까?' />
+			<meta
+				name='description'
+				content='연봉 테스트, 내 연봉 위치, 평균 연봉, 연봉 순위, 연봉 비교, 내 또래 연봉, 나는 친구보다 얼마나 더 벌고 있을까?'
+			/>
 
 			{/* Facebook Meta Tags */}
 			<meta property='og:type' content='website' />
