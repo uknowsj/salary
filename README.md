@@ -1,40 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 💰재미로 보는 내 연봉 위치
+https://salary.devmua.com
 
-## Getting Started
+## 📋 프로젝트 소개
+- Visx 라이브러리 학습용으로 제작된 테스트 사이트
+- 참고 자료 출처 | 임금직무정보시스템, KOSIS(국가통계포털)
 
-First, run the development server:
+### 테스트 & 결과 페이지
+<figure class="half">
+  <a href="link">
+    <img width="350" alt="image" src="https://github.com/uknowsj/salary/assets/44722864/4658ae19-0a31-4eae-8203-93fa654c0788">
+  </a>
+  <a href="link">
+    <img width="348" alt="image" src="https://github.com/uknowsj/salary/assets/44722864/51c8fd41-620d-40d8-9214-b77001ee10fe">
+  </a>  
+</figure>
+
+## 👟 코드 실행 방법
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 👷 기능 구현 사항
+1. Visx 라이브러리를 사용한 그래프 구현
+2. SEO 최적화
+- Open Graph Protocol 적용 (Kakao, X)
+- Metadata, Sitemap 제공 및 시맨틱 마크업 적용
+- Google Analytics 적용, Google Search Console, Naver Search Adviser에 사이트 등록
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ⚙️ 기술 스택
+#### TypeScript, Next.js, Tailwind CSS, Visx
